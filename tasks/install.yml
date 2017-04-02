@@ -1,0 +1,89 @@
+---
+- name: Check for previously installed and executable vagrant
+  shell: "vagrant version | head -n1 | awk '{print $3}' | awk -F'-' '{print $1}' | sed 's/v//'"
+  changed_when: "False"
+  failed_when: "False"
+  register: prior_vagrant_version
+
+- name: Previous vagrant version
+  debug:
+    var: prior_vagrant_version.stdout
+
+- name: Uses .deb
+  set_fact:
+    distro_package_manager_filetype: deb
+  when: ansible_pkg_mgr == 'apt'
+
+- name: Uses .rpm
+  set_fact:
+    distro_package_manager_filetype: deb
+  when: ansible_pkg_mgr == 'yum' or ansible_pkg_mgr == 'dnf'
+
+- name: Uses .dmg
+  set_fact:
+    distro_package_manager_filetype: dmg
+  when: ansible_os_family == 'Darwin'
+
+- name: Uses .msi
+  set_fact:
+    distro_package_manager_filetype: msi
+  when: ansible_os_family == 'Windows'
+
+- name: Build vagrant download filename
+  set_fact:
+    vagrant_filename: "vagrant_{{ vagrant_version }}_{{ ansible_userspace_architecture }}.{{ distro_package_manager_filetype }}"
+
+- name: Get vagrant sha256sums
+  get_url:
+    url: "https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_SHA256SUMS"
+    dest: "/tmp/vagrant_{{ vagrant_version }}_SHA256SUMS"
+  when: prior_vagrant_version.stdout != vagrant_version
+
+- name: Get vagrant sha256sum signatures
+  get_url:
+    url: "https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_SHA256SUMS.sig"
+    dest: "/tmp/vagrant_{{ vagrant_version }}_SHA256SUMS.sig"
+  when: prior_vagrant_version.stdout != vagrant_version
+
+- name: Import the Hashicorp Security gpg key
+  become: "true"
+  become_method: sudo
+  shell: curl https://keybase.io/hashicorp/key.asc | gpg --import
+  args:
+    warn: "False"
+  changed_when: "False"
+  when: prior_vagrant_version.stdout != vagrant_version
+
+- name: Verify the signature file is untampered
+  become: true
+  become_method: sudo
+  command: "gpg --verify /tmp/vagrant_{{ vagrant_version }}_SHA256SUMS.sig /tmp/vagrant_{{ vagrant_version }}_SHA256SUMS"
+  register: sha256_check
+  changed_when: "False"
+  failed_when: '"Good signature from \"HashiCorp Security <security@hashicorp.com>\"" not in sha256_check.stderr'
+  when: prior_vagrant_version.stdout != vagrant_version
+
+- name: "Gather signature for {{ vagrant_filename }}"
+  shell: "grep '{{ vagrant_filename }}' /tmp/vagrant_{{ vagrant_version }}_SHA256SUMS | awk '{print $1}'"
+  changed_when: "False"
+  register: vagrant_signature
+  when: prior_vagrant_version.stdout != vagrant_version
+
+- name: "Download {{ vagrant_filename }}"
+  get_url:
+    url: "https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/{{ vagrant_filename }}"
+    dest: "/tmp/{{ vagrant_filename }}"
+    checksum: "sha256:{{ vagrant_signature.stdout }}"
+    owner: root
+    group: root
+    mode: 0444
+  when: prior_vagrant_version.stdout != vagrant_version
+
+- name: Install vagrant
+  become: true
+  become_method: sudo
+  apt:
+    deb: "/tmp/{{ vagrant_filename }}"
+    force: "yes"
+  when: prior_vagrant_version.stdout != vagrant_version
+...
