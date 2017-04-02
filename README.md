@@ -1,3 +1,5 @@
+[![License](https://img.shields.io/badge/license-GPLv3-brightgreen.svg)](LICENSE)
+
 # Overview: pgporada.vagrant
 
 One less thing for me to have to go out to the internet to grab when setting up my dev machine(s).
