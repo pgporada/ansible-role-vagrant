@@ -79,11 +79,23 @@
     mode: 0444
   when: prior_vagrant_version.stdout != vagrant_version
 
-- name: Install vagrant
+- name: Install vagrant for Debian based systems
   become: true
   become_method: sudo
   apt:
     deb: "/tmp/{{ vagrant_filename }}"
     force: "yes"
   when: prior_vagrant_version.stdout != vagrant_version
+        and
+        ansible_os_family == 'Debian'
+
+- name: Install vagrant for RHEL based systems
+  become: true
+  become_method: sudo
+  yum:
+    name: "/tmp/{{ vagrant_filename }}"
+    state: latest
+  when: prior_vagrant_version.stdout != vagrant_version
+        and
+        ansible_os_family == 'RedHat'
 ...
