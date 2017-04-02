@@ -16,7 +16,7 @@ Installs the specified version of [Hashicorp Vagrant](https://www.vagrantup.com/
 
 To run the local playbook, issue the following command.
 
-    ansible-playbook playbook.yml --ask-become-pass
+    ansible-playbook playbook.yml -K
 
 - - - -
 # How to hack away at this role
