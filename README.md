@@ -9,14 +9,26 @@ One less thing for me to have to go out to the internet to grab when setting up 
 
 Installs the specified version of [Hashicorp Vagrant](https://www.vagrantup.com/downloads.html).
 
-    vagrant_version: 1.9.2
+    vagrant_version: 1.9.5
 
 - - - -
 # Example Playbook
 
 To run the local playbook, issue the following command.
 
-    ansible-playbook playbook.yml -K
+    ansible-playbook local_playbook.yml -b -K
+
+To use this role in another playbook
+
+    cat << EOF > some_playbook.yml
+    ---
+    - hosts: localhost
+      connection: local
+      roles:
+        - pgporada.vagrant
+    ...
+    EOF
+    ansible-playbook some_playbook.yml -b -K
 
 - - - -
 # How to hack away at this role
