@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Phil Porada
-  description: Installs and configures consul
+  description: Installs Vagrant
   company: My Tall Guy
   min_ansible_version: 2.2
   license: gplv3
