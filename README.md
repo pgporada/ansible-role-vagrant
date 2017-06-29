@@ -1,3 +1,4 @@
+![pgporada.vagrant](https://img.shields.io/badge/role-pgporada.vagrant-yellow.svg)
 [![License](https://img.shields.io/badge/license-GPLv3-brightgreen.svg)](LICENSE)
 
 # Overview: pgporada.vagrant
@@ -24,6 +25,8 @@ To use this role in another playbook
     ---
     - hosts: localhost
       connection: local
+      vars:
+        vagrant_version: 1.9.5
       roles:
         - pgporada.vagrant
     ...
@@ -34,6 +37,10 @@ To use this role in another playbook
 # How to hack away at this role
 Before submitting a PR, please create a test and run it through test-kitchen. You will need a ruby environment with gem and bundler for these tests.
 
+    # This takes care of twiddling all the bits that need to be updated when bumping the terraform version
+    ./update_automagic.sh x.x.x
+
+    # This will run your terraform update through the test system
 	bundle update
 	bundle install
 	bundle exec kitchen create
@@ -45,7 +52,7 @@ Before submitting a PR, please create a test and run it through test-kitchen. Yo
 # License and Author Information
 GPLv3
 
-2017 - Phil Porada
+(C) ]Phil Porada](https://philporada.com) 2017 - philporada@gmail.com
 
 - - - -
 # Theme Song
