@@ -1,6 +1,6 @@
 ![pgporada.vagrant](https://img.shields.io/badge/role-pgporada.vagrant-yellow.svg)
-[![](https://img.shields.io/badge/Supports%20Vagrant%20Version-1.9.5-blue.svg)](https://github.com/hashicorp/vagrant/blob/v1.9.5/CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-GPLv3-brightgreen.svg)](LICENSE)
+[![](https://img.shields.io/badge/Supports%20Vagrant%20Version-1.9.5-blue.svg)](https://github.com/hashicorp/vagrant/blob/v1.9.5/CHANGELOG.md)
 
 # Overview: pgporada.vagrant
 
