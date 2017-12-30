@@ -5,7 +5,7 @@
   become_method: sudo
 
   vars:
-    vagrant_version: 1.9.5
+    vagrant_version: 2.0.1
 
   roles:
     - ansible-role-vagrant
