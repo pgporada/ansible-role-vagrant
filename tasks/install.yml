@@ -16,7 +16,7 @@
 
 - name: Uses .rpm
   set_fact:
-    distro_package_manager_filetype: deb
+    distro_package_manager_filetype: rpm
   when: ansible_pkg_mgr == 'yum' or ansible_pkg_mgr == 'dnf'
 
 - name: Uses .dmg
