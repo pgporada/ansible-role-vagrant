@@ -6,7 +6,7 @@
 }
 
 @test "vagrant is the version specified" {
-    if [ "$(echo "vagrant_version: $(vagrant version | head -n1 | sed 's/Installed Version: //')")" == "vagrant_version: 2.1.2" ]; then
+    if [ "$(echo "vagrant_version: $(vagrant version | head -n1 | sed 's/Installed Version: //')")" == "vagrant_version: 2.2.0" ]; then
         status=0
     else
         status=1
