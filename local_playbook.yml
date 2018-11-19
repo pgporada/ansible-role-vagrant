@@ -4,7 +4,7 @@
   become: true
   become_method: sudo
   vars:
-    vagrant_version: 2.2.0
+    vagrant_version: 2.2.1
   roles:
     - ../ansible-role-vagrant
 ...

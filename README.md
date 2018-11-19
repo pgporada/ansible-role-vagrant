@@ -1,6 +1,6 @@
 ![pgporada.vagrant](https://img.shields.io/badge/role-pgporada.vagrant-yellow.svg)
 [![License](https://img.shields.io/badge/license-GPLv3-brightgreen.svg)](LICENSE)
-[![](https://img.shields.io/badge/Supports%20Vagrant%20Version-2.2.0-blue.svg)](https://github.com/hashicorp/vagrant/blob/v2.2.0/CHANGELOG.md)
+[![](https://img.shields.io/badge/Supports%20Vagrant%20Version-2.2.1-blue.svg)](https://github.com/hashicorp/vagrant/blob/v2.2.1/CHANGELOG.md)
 
 # Overview: pgporada.vagrant
 
@@ -11,7 +11,7 @@ One less thing for me to have to go out to the internet to grab when setting up 
 
 Installs the specified version of [Hashicorp Vagrant](https://www.vagrantup.com/downloads.html).
 
-    vagrant_version: 2.2.0
+    vagrant_version: 2.2.1
 
 - - - -
 # Example Playbook
@@ -27,7 +27,7 @@ To use this role in another playbook
     - hosts: localhost
       connection: local
       vars:
-        vagrant_version: 2.2.0
+        vagrant_version: 2.2.1
       roles:
         - pgporada.vagrant
     ...
